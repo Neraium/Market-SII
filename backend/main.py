@@ -1,12 +1,22 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.stream import router as stream_router
 from backend.api.topology import router as topology_router
 from backend.api.replay import router as replay_router
 from backend.api.snapshot import router as snapshot_router
 from backend.services.live_state_service import LiveStateService
+from market_sii.config.settings import settings
 
 app = FastAPI(title="Market-SII")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.frontend_origin],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 app.include_router(stream_router)
 app.include_router(topology_router)
@@ -21,6 +31,7 @@ def root():
     return {
         "system": "Market-SII",
         "status": "online",
+        "environment": settings.environment,
         "description": "Systemic market structure intelligence engine",
     }
 
