@@ -7,6 +7,7 @@ from market_sii.engines.liquidity_instability_engine import LiquidityInstability
 from market_sii.engines.drift_propagation_engine import DriftPropagationEngine
 from market_sii.forecasting.structural_forecasting_engine import StructuralForecastingEngine
 from market_sii.explanations.operator_explanation_engine import OperatorExplanationEngine
+from market_sii.outputs.graph_payload import build_graph_payload
 
 
 class LiveStateService:
@@ -35,6 +36,10 @@ class LiveStateService:
             drift_history=drift_history,
             velocity_history=velocity_history,
             acceleration_history=acceleration_history,
+            topology_drift=topology["topology_drift"],
+            propagation_score=propagation["propagation_score"],
+            breadth_deterioration=breadth["breadth_deterioration"],
+            liquidity_instability=liquidity["liquidity_instability"],
         )
 
         explanation = self.explanation_engine.explain(
@@ -45,9 +50,15 @@ class LiveStateService:
             dominant_nodes=topology["dominant_nodes"],
         )
 
+        graph = build_graph_payload(
+            relationship_changes=topology["relationship_changes"],
+            max_edges=40,
+        )
+
         return {
             "system": "Market-SII",
             "topology": topology,
+            "graph": graph,
             "multi_timeframe": multi_timeframe,
             "breadth": breadth,
             "liquidity": liquidity,
