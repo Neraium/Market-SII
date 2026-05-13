@@ -2,12 +2,16 @@ from fastapi import FastAPI
 
 from backend.api.stream import router as stream_router
 from backend.api.topology import router as topology_router
+from backend.api.replay import router as replay_router
+from backend.api.snapshot import router as snapshot_router
 from backend.services.live_state_service import LiveStateService
 
 app = FastAPI(title="Market-SII")
 
 app.include_router(stream_router)
 app.include_router(topology_router)
+app.include_router(replay_router)
+app.include_router(snapshot_router)
 
 state_service = LiveStateService()
 
