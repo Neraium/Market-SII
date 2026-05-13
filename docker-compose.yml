@@ -5,4 +5,23 @@ services:
     build: .
     ports:
       - "8000:8000"
+    env_file:
+      - .env.example
+    depends_on:
+      - redis
+      - postgres
     restart: unless-stopped
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: market_sii
+      POSTGRES_USER: market_sii
+      POSTGRES_PASSWORD: market_sii
+    ports:
+      - "5432:5432"
