@@ -5,6 +5,7 @@ import RegimePanel from '../components/RegimePanel'
 import TopologyGraph from '../components/TopologyGraph'
 import DriftHeatmap from '../components/DriftHeatmap'
 import StructuralTimeline from '../components/StructuralTimeline'
+import SubsystemPressureCard from '../components/SubsystemPressureCard'
 import { useMarketStream } from '../hooks/useMarketStream'
 
 export default function HomePage() {
@@ -29,10 +30,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-10">
           <MarketHealthCard />
           <RegimePanel />
           <DriftHeatmap />
+          <SubsystemPressureCard />
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-8">
