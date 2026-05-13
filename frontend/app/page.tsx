@@ -1,30 +1,41 @@
+'use client'
+
+import MarketHealthCard from '../components/MarketHealthCard'
+import RegimePanel from '../components/RegimePanel'
+import TopologyGraph from '../components/TopologyGraph'
+import DriftHeatmap from '../components/DriftHeatmap'
+import { useMarketStream } from '../hooks/useMarketStream'
+
 export default function HomePage() {
+  const state = useMarketStream()
+
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-5xl font-bold tracking-tight">
-          Market-SII
-        </h1>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-5xl font-bold tracking-tight">
+              Market-SII
+            </h1>
 
-        <p className="mt-4 text-zinc-400 text-lg">
-          Structural Market Intelligence Dashboard
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
-            <h2 className="text-xl font-semibold">Market Health</h2>
-            <p className="text-zinc-400 mt-2">Topology drift and regime state.</p>
+            <p className="mt-4 text-zinc-400 text-lg">
+              Structural Market Intelligence Dashboard
+            </p>
           </div>
 
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
-            <h2 className="text-xl font-semibold">Subsystem Pressure</h2>
-            <p className="text-zinc-400 mt-2">Structural stress by subsystem.</p>
+          <div className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-emerald-300">
+            {state?.status || 'connecting'}
           </div>
+        </div>
 
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
-            <h2 className="text-xl font-semibold">Relationship Drift</h2>
-            <p className="text-zinc-400 mt-2">Topology deterioration timeline.</p>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
+          <MarketHealthCard />
+          <RegimePanel />
+          <DriftHeatmap />
+        </div>
+
+        <div className="mt-8">
+          <TopologyGraph />
         </div>
       </div>
     </main>
