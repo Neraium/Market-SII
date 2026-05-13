@@ -4,6 +4,7 @@ import MarketHealthCard from '../components/MarketHealthCard'
 import RegimePanel from '../components/RegimePanel'
 import TopologyGraph from '../components/TopologyGraph'
 import DriftHeatmap from '../components/DriftHeatmap'
+import StructuralTimeline from '../components/StructuralTimeline'
 import { useMarketStream } from '../hooks/useMarketStream'
 
 export default function HomePage() {
@@ -34,8 +35,12 @@ export default function HomePage() {
           <DriftHeatmap />
         </div>
 
-        <div className="mt-8">
-          <TopologyGraph />
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-8">
+          <div className="xl:col-span-2">
+            <TopologyGraph />
+          </div>
+
+          <StructuralTimeline />
         </div>
       </div>
     </main>
