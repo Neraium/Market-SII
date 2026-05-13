@@ -23,6 +23,20 @@ npm run dev
 docker compose up --build
 ```
 
+## Real Market Data Smoke Test
+
+Run the full structural intelligence pipeline against live Yahoo Finance market data:
+
+```bash
+python scripts/run_real_data_smoke.py
+```
+
+Outputs:
+
+```text
+outputs/real_market_sii_snapshot.json
+```
+
 ## Primary Endpoints
 
 - GET /snapshot/current
