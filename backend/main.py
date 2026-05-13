@@ -1,6 +1,15 @@
 from fastapi import FastAPI
 
+from backend.api.stream import router as stream_router
+from backend.api.topology import router as topology_router
+from backend.services.live_state_service import LiveStateService
+
 app = FastAPI(title="Market-SII")
+
+app.include_router(stream_router)
+app.include_router(topology_router)
+
+state_service = LiveStateService()
 
 
 @app.get("/")
@@ -21,6 +30,14 @@ def health():
 
 @app.get("/regime")
 def regime():
+    snapshot = state_service.snapshot()
+
     return {
-        "regime": "transition"
+        "forecast": snapshot["forecast"],
+        "explanation": snapshot["explanation"],
     }
+
+
+@app.get("/snapshot")
+def snapshot():
+    return state_service.snapshot()
