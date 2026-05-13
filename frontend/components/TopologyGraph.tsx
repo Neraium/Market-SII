@@ -1,5 +1,23 @@
-export default function TopologyGraph() {
-  const nodes = ['SPY', 'QQQ', 'XLK', 'SMH', 'NVDA', 'BTC']
+type Node = {
+  id: string
+}
+
+type Edge = {
+  source: string
+  target: string
+  weight: number
+}
+
+type Props = {
+  graph?: {
+    nodes: Node[]
+    edges: Edge[]
+  }
+}
+
+export default function TopologyGraph({ graph }: Props) {
+  const nodes = graph?.nodes || []
+  const edges = graph?.edges || []
 
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 overflow-hidden">
@@ -15,29 +33,44 @@ export default function TopologyGraph() {
         </div>
 
         <div className="text-sm text-zinc-500">
-          Live topology
+          {nodes.length} nodes · {edges.length} edges
         </div>
       </div>
 
-      <div className="relative h-[420px] mt-6 rounded-xl border border-zinc-800 bg-black">
+      <div className="relative h-[420px] mt-6 rounded-xl border border-zinc-800 bg-black overflow-hidden">
         <svg className="absolute inset-0 w-full h-full">
-          <line x1="120" y1="120" x2="300" y2="100" stroke="#3f3f46" />
-          <line x1="300" y1="100" x2="500" y2="160" stroke="#3f3f46" />
-          <line x1="500" y1="160" x2="380" y2="300" stroke="#3f3f46" />
-          <line x1="380" y1="300" x2="180" y2="260" stroke="#3f3f46" />
+          {edges.slice(0, 24).map((edge, idx) => {
+            const x1 = 80 + ((idx * 71) % 500)
+            const y1 = 60 + ((idx * 47) % 280)
+            const x2 = 180 + ((idx * 37) % 420)
+            const y2 = 120 + ((idx * 61) % 240)
+
+            return (
+              <line
+                key={`${edge.source}-${edge.target}`}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke="rgba(239,68,68,0.35)"
+                strokeWidth={Math.max(edge.weight * 6, 1)}
+              />
+            )
+          })}
         </svg>
 
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="grid grid-cols-3 gap-10">
-            {nodes.map((node) => (
-              <div
-                key={node}
-                className="h-20 w-20 rounded-full border border-emerald-500/20 bg-emerald-500/10 flex items-center justify-center text-sm font-semibold text-emerald-300 shadow-lg shadow-emerald-500/10"
-              >
-                {node}
-              </div>
-            ))}
-          </div>
+        <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-8 p-10">
+          {nodes.map((node, idx) => (
+            <div
+              key={node.id}
+              className="h-20 w-20 rounded-full border border-emerald-500/20 bg-emerald-500/10 flex items-center justify-center text-sm font-semibold text-emerald-300 shadow-lg shadow-emerald-500/10"
+              style={{
+                transform: `translateY(${(idx % 3) * 8}px)`,
+              }}
+            >
+              {node.id}
+            </div>
+          ))}
         </div>
       </div>
     </div>
