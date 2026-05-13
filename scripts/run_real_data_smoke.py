@@ -43,6 +43,10 @@ def main():
         drift_history=drift_history,
         velocity_history=velocity_history,
         acceleration_history=acceleration_history,
+        topology_drift=topology["topology_drift"],
+        propagation_score=propagation["propagation_score"],
+        breadth_deterioration=breadth["breadth_deterioration"],
+        liquidity_instability=liquidity["liquidity_instability"],
     )
 
     explanation = explanation_engine.explain(
