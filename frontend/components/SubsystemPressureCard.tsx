@@ -1,19 +1,13 @@
-export default function SubsystemPressureCard() {
-  const systems = [
-    {
-      name: 'Growth Tech',
-      pressure: 'High',
-    },
-    {
-      name: 'Macro Fear',
-      pressure: 'Elevated',
-    },
-    {
-      name: 'Crypto',
-      pressure: 'Moderate',
-    },
-  ]
+type Node = {
+  symbol: string
+  relationship_pressure: number
+}
 
+type Props = {
+  nodes?: Node[]
+}
+
+export default function SubsystemPressureCard({ nodes = [] }: Props) {
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6">
       <h2 className="text-xl font-semibold text-white">
@@ -21,17 +15,17 @@ export default function SubsystemPressureCard() {
       </h2>
 
       <div className="mt-6 space-y-3">
-        {systems.map((system) => (
+        {nodes.slice(0, 5).map((node) => (
           <div
-            key={system.name}
+            key={node.symbol}
             className="flex items-center justify-between rounded-xl border border-zinc-800 bg-black px-4 py-3"
           >
             <div className="text-white">
-              {system.name}
+              {node.symbol}
             </div>
 
             <div className="text-orange-300 text-sm font-medium">
-              {system.pressure}
+              {node.relationship_pressure.toFixed(2)}
             </div>
           </div>
         ))}
